@@ -63,8 +63,8 @@ export async function POST(req: Request) {
                         clerkId: id,
                         email: email_addresses[0].email_address,
                         username: username!,
-                        firstName: first_name,
-                        lastName: last_name,
+                        firstName: first_name ?? '',
+                        lastName: last_name ?? '',
                         photo: image_url,
                 };
 
@@ -72,11 +72,18 @@ export async function POST(req: Request) {
 
                 // Set public metadata
                 if (newUser) {
-                        await clerkClient.users.updateUserMetadata(id, {
-                                publicMetadata: {
-                                        userId: newUser._id,
-                                },
-                        });
+                        try {
+                                await clerkClient.users.updateUserMetadata(id, {
+                                        publicMetadata: {
+                                                userId: newUser._id,
+                                        },
+                                });
+                        } catch (err) {
+                                console.error('Error updating user metadata:', err);
+                                return new Response('Error updating user metadata', {
+                                        status: 500,
+                                });
+                        }
                 }
 
                 return NextResponse.json({ message: 'OK', user: newUser });
