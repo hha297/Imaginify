@@ -14,6 +14,7 @@ import { useState, useTransition } from 'react';
 import { AspectRatioKey, debounce, deepMergeObjects } from '@/lib/utils';
 import { updateCredits } from '@/lib/actions/user.action';
 import MediaUploader from './MediaUploader';
+import TransformedImage from './TransformedImage';
 
 export const formSchema = z.object({
         title: z.string(),
@@ -78,7 +79,7 @@ const TransformationForm = ({ data = null, action, userId, type, creditBalance, 
                 }, 1000)();
                 return onChangeField(value);
         };
-        //TODO: Return to UpdateCredits
+        //TODO: Update creditFee
         const onTransformHandler = async () => {
                 setIsTransforming(true);
 
@@ -87,7 +88,7 @@ const TransformationForm = ({ data = null, action, userId, type, creditBalance, 
                 setNewTransformation(null);
 
                 startTransition(async () => {
-                        // await updateCredits(userId, creditFee)
+                        await updateCredits(userId, -1);
                 });
         };
 
@@ -158,6 +159,15 @@ const TransformationForm = ({ data = null, action, userId, type, creditBalance, 
                                                 name="publicId"
                                                 className="flex flex-col size-full"
                                                 render={({ field }) => <MediaUploader onValueChange={field.onChange} setImage={setImage} publicId={field.value} image={image} type={type} />}
+                                        />
+
+                                        <TransformedImage
+                                                image={image}
+                                                type={type}
+                                                title={form.getValues().title}
+                                                isTransforming={isTransforming}
+                                                setIsTransforming={setIsTransforming}
+                                                transformationConfig={transformationConfig}
                                         />
                                 </div>
 
