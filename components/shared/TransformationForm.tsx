@@ -121,7 +121,7 @@ const TransformationForm = ({ data = null, action, userId, type, creditBalance, 
                 const imageSize = aspectRatioOptions[value as AspectRatioKey];
                 setImage((prevState: any) => ({
                         ...prevState,
-                        aspectRatioOptions: imageSize.aspectRatio,
+                        aspectRatio: imageSize.aspectRatio,
                         width: imageSize.width,
                         height: imageSize.height,
                 }));
