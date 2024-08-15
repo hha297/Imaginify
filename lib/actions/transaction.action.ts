@@ -16,7 +16,7 @@ export async function checkoutCredits(transaction: CheckoutTransactionParams) {
                 line_items: [
                         {
                                 price_data: {
-                                        currency: 'eur',
+                                        currency: 'usd',
                                         unit_amount: amount,
                                         product_data: {
                                                 name: transaction.plan,
@@ -32,7 +32,7 @@ export async function checkoutCredits(transaction: CheckoutTransactionParams) {
                 },
                 mode: 'payment',
                 success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
-                cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}`,
+                cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
         });
 
         redirect(session.url!);
